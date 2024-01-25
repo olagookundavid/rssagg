@@ -13,6 +13,7 @@ import (
 	"github.com/olagookundavid/rssagg/handlers"
 	"github.com/olagookundavid/rssagg/internal/database"
 	"github.com/olagookundavid/rssagg/routes"
+	"github.com/olagookundavid/rssagg/scraper"
 )
 
 func main() {
@@ -38,7 +39,7 @@ func main() {
 	apiCfg := handlers.ApiConfig{
 		DB: queries,
 	}
-	go startScrapping(queries, 10, time.Minute)
+	go scraper.StartScrapping(queries, 10, time.Minute)
 	router := routes.CreateRouter(&apiCfg)
 	server := &http.Server{
 		Handler: router,

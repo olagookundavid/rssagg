@@ -1,4 +1,4 @@
-package main
+package scraper
 
 import (
 	"context"
@@ -10,15 +10,17 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/olagookundavid/rssagg/internal/database"
+	"github.com/olagookundavid/rssagg/models"
 )
 
-func startScrapping(db *database.Queries, concurrency int, timeBetweenRequest time.Duration) {
+func StartScrapping(db *database.Queries, concurrency int, timeBetweenRequest time.Duration) {
 	log.Printf("Scraping on %v goroutines every %s duration", concurrency, timeBetweenRequest)
 
 	ticker := time.NewTicker(timeBetweenRequest)
 
 	// if we do for range here, we would have to wait `timeBetweenRequest` on the first iteration
 	for ; ; <-ticker.C {
+
 		//Context.background isthe global context, unlike the context we have in the http handler
 		feeds, err := db.GetNextFeedsToFetch(context.Background(), int32(concurrency))
 		if err != nil {
@@ -46,7 +48,7 @@ func scrapeFeed(db *database.Queries, wg *sync.WaitGroup, feed database.Feed) {
 		return
 	}
 
-	rssFeed, err := urlToFeed(feed.Url)
+	rssFeed, err := models.UrlToFeed(feed.Url)
 	if err != nil {
 		log.Println("Error fetching feed: ", err)
 		return

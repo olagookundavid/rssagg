@@ -55,6 +55,7 @@ func scrapeFeed(db *database.Queries, wg *sync.WaitGroup, feed database.Feed) {
 	}
 
 	for _, item := range rssFeed.Channel.Item {
+		//Ask wagslane
 		description := sql.NullString{}
 
 		if item.Description != "" {

@@ -1,5 +1,16 @@
 package main
 
+/*
+questions for Gerald:
+
+parameters in HandlerCreateUser what of optional ones,
+how does Go deal with null,
+is this methods the way to go, orm and all,
+how to host,
+login dilema,
+wait group in scraper file how does it work, does it mean that we use it to block because we don't get a chan
+*/
+
 import (
 	"database/sql"
 	"fmt"
